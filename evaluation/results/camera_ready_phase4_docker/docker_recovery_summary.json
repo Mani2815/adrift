@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "timestamp": "2026-10-12T17:19:28.797554+00:00",
+    "phase": "Phase 4 Real Docker Recovery Validation",
+    "container_name": "adrift-consumer",
+    "topic": "adrift_events",
+    "kafka_broker": "localhost:9092",
+    "docker_api": "1.56"
+  },
+  "trial_counts": {
+    "total_controlled_trials": 12,
+    "successful_trials": 12,
+    "failed_trials": 0,
+    "timed_out_trials": 0,
+    "success_rate": 1.0
+  },
+  "aggregate_metrics": {
+    "observation_latency_s": {
+      "mean": 1.0914,
+      "std": 0.1386,
+      "median": 1.1336,
+      "min": 0.6328,
+      "max": 1.1532
+    },
+    "decision_latency_s": {
+      "mean": 0.0501,
+      "std": 0.1359,
+      "median": 0.0094,
+      "min": 0.0,
+      "max": 0.5005
+    },
+    "docker_restart_duration_s": {
+      "mean": 0.0742,
+      "std": 0.0086,
+      "median": 0.0714,
+      "min": 0.0654,
+      "max": 0.0952
+    },
+    "readiness_wait_duration_s": {
+      "mean": 9.1881,
+      "std": 0.2675,
+      "median": 9.2204,
+      "min": 8.5801,
+      "max": 9.7631
+    },
+    "end_to_end_recovery_s": {
+      "mean": 10.4315,
+      "std": 0.3796,
+      "median": 10.5053,
+      "min": 9.3366,
+      "max": 10.9923
+    },
+    "service_downtime_s": {
+      "mean": 10.4315,
+      "std": 0.3796,
+      "median": 10.5053,
+      "min": 9.3366,
+      "max": 10.9923
+    }
+  },
+  "per_engine_summary": {
+    "Rule Engine": {
+      "trials": 2,
+      "success_rate": 1.0,
+      "e2e_recovery_stats": {
+        "mean": 10.1644,
+        "std": 0.8278,
+        "median": 10.1644,
+        "min": 9.3366,
+        "max": 10.9923
+      }
+    },
+    "PPO_Seed_42": {
+      "trials": 2,
+      "success_rate": 1.0,
+      "e2e_recovery_stats": {
+        "mean": 10.5054,
+        "std": 0.2434,
+        "median": 10.5054,
+        "min": 10.262,
+        "max": 10.7488
+      }
+    },
+    "PPO_Seed_43": {
+      "trials": 2,
+      "success_rate": 1.0,
+      "e2e_recovery_stats": {
+        "mean": 10.55,
+        "std": 0.0125,
+        "median": 10.55,
+        "min": 10.5375,
+        "max": 10.5625
+      }
+    },
+    "PPO_Seed_44": {
+      "trials": 2,
+      "success_rate": 1.0,
+      "e2e_recovery_stats": {
+        "mean": 10.4179,
+        "std": 0.139,
+        "median": 10.4179,
+        "min": 10.2788,
+        "max": 10.5569
+      }
+    },
+    "PPO_Seed_45": {
+      "trials": 2,
+      "success_rate": 1.0,
+      "e2e_recovery_stats": {
+        "mean": 10.4498,
+        "std": 0.0233,
+        "median": 10.4498,
+        "min": 10.4265,
+        "max": 10.4731
+      }
+    },
+    "PPO_Seed_46": {
+      "trials": 2,
+      "success_rate": 1.0,
+      "e2e_recovery_stats": {
+        "mean": 10.5018,
+        "std": 0.0598,
+        "median": 10.5018,
+        "min": 10.4421,
+        "max": 10.5616
+      }
+    }
+  },
+  "experiment_a_baseline": {
+    "experiment": "Experiment A (Baseline Restart)",
+    "success": true,
+    "status": "SUCCESS",
+    "fault_injected_wall_clock": "2026-10-12T17:16:56.656053+00:00",
+    "observation_latency_s": 0.1477,
+    "docker_restart_duration_s": 0.0773,
+    "readiness_wait_duration_s": 9.7105,
+    "end_to_end_recovery_s": 9.9626,
+    "service_downtime_s": 9.9626,
+    "messages_produced": 30,
+    "messages_processed_post": 15,
+    "last_offset": 339,
+    "container_id": "fe1c61446174"
+  },
+  "experiment_b_validation_count": 8,
+  "experiment_b_all_passed": true
+}

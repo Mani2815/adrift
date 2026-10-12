@@ -1,0 +1,101 @@
+{
+    "n_explanation": 200,
+    "n_background": 25,
+    "feature_names": [
+        "Drift Type",
+        "Severity Score",
+        "Latency",
+        "Throughput",
+        "Consumer Health",
+        "Success Rate",
+        "Drift Freq",
+        "Error Rate"
+    ],
+    "action_names": [
+        "Ignore Event",
+        "Retrain Model",
+        "Restart Consumer",
+        "Rollback Previous Model",
+        "Scale Processing Resources"
+    ],
+    "explanation_validation": {
+        "n_samples": 200,
+        "n_features": 8,
+        "all_finite": true,
+        "drift_type_values": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0
+        ],
+        "severity_range": [
+            0.003980395384132862,
+            1.0
+        ],
+        "latency_range": [
+            0.021500645205378532,
+            1.0
+        ],
+        "throughput_range": [
+            0.0,
+            0.9796552658081055
+        ],
+        "consumer_health_values": [
+            0.0,
+            1.0
+        ],
+        "success_rate_range": [
+            0.528563916683197,
+            1.0
+        ],
+        "drift_freq_range": [
+            0.0,
+            0.39847952127456665
+        ],
+        "error_rate_range": [
+            6.49875946692191e-05,
+            0.7866001129150391
+        ]
+    },
+    "background_validation": {
+        "n_samples": 25,
+        "n_features": 8,
+        "all_finite": true,
+        "drift_type_values": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0
+        ],
+        "severity_range": [
+            0.02820044569671154,
+            1.0
+        ],
+        "latency_range": [
+            0.02480393648147583,
+            1.0
+        ],
+        "throughput_range": [
+            0.0,
+            0.9621489644050598
+        ],
+        "consumer_health_values": [
+            0.0,
+            1.0
+        ],
+        "success_rate_range": [
+            0.6225822567939758,
+            1.0
+        ],
+        "drift_freq_range": [
+            0.0,
+            0.3139371871948242
+        ],
+        "error_rate_range": [
+            0.0031811764929443598,
+            0.7080597281455994
+        ]
+    }
+}

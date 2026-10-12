@@ -33,6 +33,26 @@ services:
     networks:
       - adrift-network
 
+  consumer:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+    image: adrift-consumer:latest
+    container_name: adrift-consumer
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_BROKER: kafka:29092
+      TOPIC_NAME: adrift_events
+      GROUP_ID: adrift_consumer_group
+      HTTP_PORT: 8080
+      AUTO_OFFSET_RESET: earliest
+    networks:
+      - adrift-network
+    restart: "no"
+
 networks:
   adrift-network:
     driver: bridge

@@ -1,0 +1,31 @@
+{
+    "timestamp": "2026-10-12T22:25:48Z",
+    "shap_version": "0.49.1",
+    "n_explanation": 200,
+    "n_background": 25,
+    "kernel_nsamples": 100,
+    "training_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+    ],
+    "feature_names": [
+        "Drift Type",
+        "Severity Score",
+        "Latency",
+        "Throughput",
+        "Consumer Health",
+        "Success Rate",
+        "Drift Freq",
+        "Error Rate"
+    ],
+    "action_names": [
+        "Ignore Event",
+        "Retrain Model",
+        "Restart Consumer",
+        "Rollback Previous Model",
+        "Scale Processing Resources"
+    ]
+}

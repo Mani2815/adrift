@@ -1,0 +1,62 @@
+[
+    {
+        "training_seed": 42,
+        "runtime_seconds": 1.33,
+        "shap_array_shape": [
+            200,
+            8,
+            5
+        ],
+        "all_finite": true,
+        "max_reconstruction_error": 1.2e-07,
+        "additivity_pass_tol_005": true
+    },
+    {
+        "training_seed": 43,
+        "runtime_seconds": 0.69,
+        "shap_array_shape": [
+            200,
+            8,
+            5
+        ],
+        "all_finite": true,
+        "max_reconstruction_error": 1.2e-07,
+        "additivity_pass_tol_005": true
+    },
+    {
+        "training_seed": 44,
+        "runtime_seconds": 0.67,
+        "shap_array_shape": [
+            200,
+            8,
+            5
+        ],
+        "all_finite": true,
+        "max_reconstruction_error": 1.2e-07,
+        "additivity_pass_tol_005": true
+    },
+    {
+        "training_seed": 45,
+        "runtime_seconds": 0.68,
+        "shap_array_shape": [
+            200,
+            8,
+            5
+        ],
+        "all_finite": true,
+        "max_reconstruction_error": 1.2e-07,
+        "additivity_pass_tol_005": true
+    },
+    {
+        "training_seed": 46,
+        "runtime_seconds": 0.68,
+        "shap_array_shape": [
+            200,
+            8,
+            5
+        ],
+        "all_finite": true,
+        "max_reconstruction_error": 2.1e-07,
+        "additivity_pass_tol_005": true
+    }
+]

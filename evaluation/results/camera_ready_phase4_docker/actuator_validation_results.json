@@ -1,0 +1,66 @@
+[
+  {
+    "test_case": "Nonexistent Container",
+    "target": "nonexistent_container_xyz",
+    "expected_status": "CONTAINER_NOT_FOUND",
+    "actual_status": "CONTAINER_NOT_FOUND",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Container Regex Validation",
+    "target": "consumer; rm -rf /",
+    "expected_status": "INVALID_TARGET",
+    "actual_status": "INVALID_TARGET",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Actuator Whitelist Authorization",
+    "target": "some_valid_looking_container",
+    "expected_status": "PERMISSION_DENIED",
+    "actual_status": "PERMISSION_DENIED",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Readiness Timeout Enforcement",
+    "target": "adrift-consumer",
+    "expected_status": "TIMEOUT",
+    "actual_status": "TIMEOUT",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Unsupported Action: Retrain Model",
+    "target": "adrift-consumer",
+    "expected_status": "UNSUPPORTED_ACTION",
+    "actual_status": "UNSUPPORTED_ACTION",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Unsupported Action: Rollback Previous Model",
+    "target": "adrift-consumer",
+    "expected_status": "UNSUPPORTED_ACTION",
+    "actual_status": "UNSUPPORTED_ACTION",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Unsupported Action: Scale Processing Resources",
+    "target": "adrift-consumer",
+    "expected_status": "UNSUPPORTED_ACTION",
+    "actual_status": "UNSUPPORTED_ACTION",
+    "success": false,
+    "passed": true
+  },
+  {
+    "test_case": "Ignore Event NO_OP",
+    "target": "adrift-consumer",
+    "expected_status": "NO_OP",
+    "actual_status": "NO_OP",
+    "success": true,
+    "passed": true
+  }
+]
