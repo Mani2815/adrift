@@ -1,0 +1,3 @@
+metric,n_pairs,baseline_mean,ppo_mean,wilcoxon_stat,p_value,significant_p005
+success_rate_pct,7,95.60440000000001,100.0,0.0,0.31731050786291415,False
+simulated_uptime_pct,7,99.98649128571428,99.99239342857143,6.0,0.21875,False

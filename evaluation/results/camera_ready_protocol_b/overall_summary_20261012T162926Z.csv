@@ -1,0 +1,3 @@
+engine,n,success_rate_mean,uptime_mean,mean_decision_lat_us
+Baseline Rule Engine,7,95.60440000000001,99.98649128571428,0.8542857142857143
+PPO Agent,7,100.0,99.99239342857143,180.9385714285714

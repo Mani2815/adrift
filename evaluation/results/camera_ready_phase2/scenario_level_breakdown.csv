@@ -1,0 +1,8 @@
+scenario,baseline_mean,baseline_std,ppo_seed_42,ppo_seed_43,ppo_seed_44,ppo_seed_45,ppo_seed_46,ppo_macro_mean,ppo_inter_seed_std,mean_diff_vs_baseline
+Sudden Drift,100.0,0.0,100.0,100.0,100.0,100.0,100.0,100.0,0.0,0.0
+Gradual Drift,100.0,0.0,100.0,100.0,100.0,100.0,100.0,100.0,0.0,0.0
+Incremental Drift,100.0,0.0,100.0,100.0,100.0,100.0,100.0,100.0,0.0,0.0
+Recurring Drift,100.0,0.0,100.0,100.0,100.0,100.0,100.0,100.0,0.0,0.0
+Consumer Crash,100.0,0.0,100.0,100.0,100.0,100.0,100.0,100.0,0.0,0.0
+High Latency,95.31,7.47,100.0,100.0,96.37,95.66,92.27,96.86,3.26,1.55
+Data Processing Failure,100.0,0.0,100.0,100.0,100.0,100.0,100.0,100.0,0.0,0.0

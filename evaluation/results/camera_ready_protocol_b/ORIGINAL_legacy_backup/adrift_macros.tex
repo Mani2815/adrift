@@ -1,0 +1,45 @@
+% ============================================================
+%  ADRIFT Experimental Macros — Auto-generated from CSV outputs
+%  Source: evaluation/results/*.csv
+%  DO NOT EDIT MANUALLY — regenerate from experiment outputs
+% ============================================================
+
+% --- Aggregate Recovery Performance (from multi_seed_stats.csv) ---
+% Computed as mean across all 7 scenarios, 10 seeds each (N=70 per system)
+% Fresh rerun: 2026-08-10
+\newcommand{\ruleMTTR}{0.00}
+\newcommand{\ppoMTTR}{0.00}
+\newcommand{\ruleSuccess}{97.17}
+\newcommand{\ppoSuccess}{99.29}
+\newcommand{\ruleUptime}{99.997}
+\newcommand{\ppoUptime}{99.981}
+
+% --- Wilcoxon Signed-Rank Test (from wilcoxon_test.csv) ---
+\newcommand{\pMTTR}{1.0}
+\newcommand{\pUptime}{3.68 \times 10^{-12}}
+\newcommand{\pSuccess}{0.206}
+
+% --- Drift Statistics (from dataset_drifts.csv) ---
+\newcommand{\elecDrifts}{82}
+\newcommand{\cicidsDrifts}{369}
+\newcommand{\elecRecurring}{77}
+\newcommand{\cicidsRecurring}{350}
+\newcommand{\elecRecurringPct}{93.9}
+\newcommand{\cicidsRecurringPct}{94.9}
+
+% --- Per-Dataset Drift Type Counts (from dataset_drifts.csv) ---
+\newcommand{\elecSudden}{1}
+\newcommand{\elecGradual}{0}
+\newcommand{\elecIncremental}{4}
+\newcommand{\cicidsSudden}{19}
+\newcommand{\cicidsGradual}{0}
+\newcommand{\cicidsIncremental}{0}
+
+% --- Global SHAP (from global_shap_importance.csv) ---
+\newcommand{\shapSeverity}{1.36}
+\newcommand{\shapDriftType}{0.27}
+
+% --- Trial Configuration ---
+\newcommand{\numTrials}{140}
+\newcommand{\numSeeds}{10}
+\newcommand{\numPPOTimesteps}{100{,}000}

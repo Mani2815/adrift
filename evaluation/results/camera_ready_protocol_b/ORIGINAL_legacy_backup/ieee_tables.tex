@@ -1,0 +1,19 @@
+% IEEE-Style Performance Comparison Table
+% Source: evaluation/results/multi_seed_stats.csv (aggregate means)
+\begin{table}[htbp]
+\caption{Protocol B: Recovery Performance Comparison}
+\label{tab:performance}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Metric} & \textbf{Rule Engine} & \textbf{PPO Agent} & \textbf{$\Delta$ (p.p.)} \\ \midrule
+Recovery Success Rate & \ruleSuccess\% & \ppoSuccess\% & +2.12 \\
+Computational Decision Latency (s) & \ruleMTTR & \ppoMTTR & 0.00 \\
+Pipeline Uptime & \ruleUptime\% & \ppoUptime\% & -0.016 \\ \bottomrule
+\end{tabular}
+}
+
+\vspace{2pt}\raggedright\scriptsize Values are rounded to the benchmark reporting precision; representative nonzero decision latencies are reported separately in Table~\ref{tab:real_latency}.\par
+\end{table}
+

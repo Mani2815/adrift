@@ -1,0 +1,3 @@
+dataset,rows_processed,throughput_rps
+Electricity,45312,8006.711942469659
+CICIDS-2017,283074,8016.065548913398

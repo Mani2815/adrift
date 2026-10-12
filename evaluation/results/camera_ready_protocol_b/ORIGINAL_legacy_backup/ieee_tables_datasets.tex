@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\caption{Separate Dataset-Stream Evaluation: Cross-Dataset Recovery Performance}
+\label{tab:dataset_breakdown}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+\textbf{Dataset} & \textbf{System} & \textbf{Computational Decision Latency (s)} & \textbf{Success} & \textbf{Uptime} & \textbf{Throughput (r/s)} \\ \midrule
+Electricity & Baseline Rule Engine & 0.00 & 95.0\% & 100.0\% & 8065 \\
+Electricity & PPO Agent & 0.00 & 100.0\% & 100.0\% & 4762 \\
+CICIDS-2017 & Baseline Rule Engine & 0.00 & 92.0\% & 100.0\% & 7779 \\
+CICIDS-2017 & PPO Agent & 0.00 & 100.0\% & 100.0\% & 5282 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

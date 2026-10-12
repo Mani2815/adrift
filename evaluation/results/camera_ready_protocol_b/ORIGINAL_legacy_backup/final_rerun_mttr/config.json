@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-08-10T06:25:34.594350+00:00",
+  "python_version": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]",
+  "scenarios": [
+    "Sudden Drift",
+    "Gradual Drift",
+    "Incremental Drift",
+    "Recurring Drift",
+    "Consumer Crash",
+    "High Latency",
+    "Data Processing Failure"
+  ],
+  "systems": [
+    "Baseline Rule Engine",
+    "PPO Agent"
+  ],
+  "trials_per_scenario_per_system": 10,
+  "total_trials": 140,
+  "events_per_trial": 250,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "time_sleep_monkeypatched": true,
+  "mttr_measurement": "computational_overhead_only",
+  "sb3_version": "2.7.1"
+}

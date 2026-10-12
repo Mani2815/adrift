@@ -1,0 +1,15 @@
+scenario,engine,n,success_rate_mean,success_rate_std,uptime_mean,uptime_std,mean_decision_lat_us,mean_e2e_lat_ms,injection_count_mean,trigger_count_mean
+Consumer Crash,Baseline Rule Engine,1,100.0,,99.992541,,0.87,0.00586,1.0,3.0
+Consumer Crash,PPO Agent,1,100.0,,99.993376,,194.42,0.201,1.0,3.0
+Data Processing Failure,Baseline Rule Engine,1,100.0,,99.992926,,0.6799999999999999,0.00567,1.0,3.0
+Data Processing Failure,PPO Agent,1,100.0,,99.994353,,169.38,0.17535,1.0,3.0
+Gradual Drift,Baseline Rule Engine,1,100.0,,99.995071,,0.9199999999999999,0.0056099999999999995,1.0,3.0
+Gradual Drift,PPO Agent,1,100.0,,99.990716,,194.48999999999998,0.2009,1.0,3.0
+High Latency,Baseline Rule Engine,1,69.2308,,99.941659,,0.51,0.007700000000000001,1.0,13.0
+High Latency,PPO Agent,1,100.0,,99.982883,,116.00999999999999,0.11993999999999999,1.0,13.0
+Incremental Drift,Baseline Rule Engine,1,100.0,,99.992039,,0.94,0.006240000000000001,1.0,3.0
+Incremental Drift,PPO Agent,1,100.0,,99.992279,,204.46,0.21156,1.0,3.0
+Recurring Drift,Baseline Rule Engine,1,100.0,,99.992484,,0.94,0.0058200000000000005,5.0,3.0
+Recurring Drift,PPO Agent,1,100.0,,99.994007,,181.85,0.18725,5.0,3.0
+Sudden Drift,Baseline Rule Engine,1,100.0,,99.998719,,1.12,0.008060000000000001,1.0,2.0
+Sudden Drift,PPO Agent,1,100.0,,99.99914,,205.96,0.21275,1.0,3.0

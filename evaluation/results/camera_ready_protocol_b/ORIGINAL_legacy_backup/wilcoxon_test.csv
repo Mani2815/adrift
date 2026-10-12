@@ -1,0 +1,4 @@
+metric,statistic,p_value,significant_0_05
+mttr,0.0,1.0,False
+success_rate,7.0,0.2059032107320683,False
+uptime,4.5,3.677165751932125e-12,True

@@ -1,0 +1,38 @@
+{
+    "training_seed": 45,
+    "total_timesteps": 100000,
+    "status": "COMPLETED",
+    "error_message": "",
+    "start_time": "2026-10-12T16:41:46.025583+00:00",
+    "end_time": "2026-10-12T16:42:07.563465+00:00",
+    "duration_seconds": 21.54,
+    "steps_per_second": 4643.0,
+    "checkpoint_file": "/Users/mani/Documents/research/Project/ADRIFT/evaluation/results/camera_ready_phase2/training_seed_45/ppo_agent.zip",
+    "checkpoint_sha256": "8bfd118731d5397ccbe0f736679ee897cf4081e30dab5b2da3bf25ec54af9a45",
+    "learning_curve_file": "/Users/mani/Documents/research/Project/ADRIFT/evaluation/results/camera_ready_phase2/training_seed_45/learning_curve.csv",
+    "hyperparameters": {
+        "learning_rate": 0.0003,
+        "n_steps": 2048,
+        "batch_size": 64,
+        "n_epochs": 10,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_range": 0.2,
+        "ent_coef": 0.0,
+        "vf_coef": 0.5,
+        "max_grad_norm": 0.5,
+        "seed": 45
+    },
+    "environment": {
+        "name": "PipelineEnv",
+        "observation_dim": 8,
+        "action_space_size": 5,
+        "max_steps": 50
+    },
+    "software_versions": {
+        "python": "3.9.6",
+        "torch": "2.8.0",
+        "gymnasium": "1.1.1",
+        "numpy": "1.26.4"
+    }
+}

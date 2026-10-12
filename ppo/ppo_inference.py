@@ -16,15 +16,18 @@ class PPOInferenceEngine:
     """
     Loads a trained PPO agent and uses it to predict recovery actions in the live pipeline.
     """
-    def __init__(self):
+    def __init__(self, model_path: str = None):
         self.state_encoder = StateEncoder()
         self.action_mapper = ActionMapper()
         self.model = None
-        self._load_model()
+        self._load_model(model_path)
         
-    def _load_model(self):
+    def _load_model(self, custom_model_path: str = None):
         base_dir = os.path.dirname(os.path.dirname(__file__))
-        model_path = os.path.join(base_dir, settings.MODEL_PATH)
+        if custom_model_path:
+            model_path = custom_model_path if os.path.isabs(custom_model_path) else os.path.join(base_dir, custom_model_path)
+        else:
+            model_path = os.path.join(base_dir, settings.MODEL_PATH)
         
         # SB3 automatically appends .zip if not provided, but we'll check it explicitly
         if not model_path.endswith('.zip'):

@@ -1,0 +1,114 @@
+{
+    "run_id": "20261012T164241Z",
+    "timestamp": "2026-10-12T16:43:57.718063+00:00",
+    "training_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+    ],
+    "inter_seed_stats": {
+        "n_policies": 5,
+        "success_rate_macro_mean": 99.55154,
+        "success_rate_inter_seed_std": 0.4654048162621444,
+        "success_rate_range": [
+            98.8959,
+            100.0
+        ],
+        "uptime_macro_mean": 99.986068,
+        "uptime_inter_seed_std": 0.0009529147391014345,
+        "decision_lat_macro_mean_us": 206.53400000000002,
+        "decision_lat_inter_seed_std_us": 9.325729462084992
+    },
+    "per_seed_wilcoxon": [
+        {
+            "training_seed": 42,
+            "n_pairs": 70,
+            "n_zero_diff": 66,
+            "n_nonzero_diff": 4,
+            "baseline_mean": 99.3302,
+            "ppo_seed_mean": 100.0,
+            "wilcoxon_stat": 0.0,
+            "p_value": 0.06559969214707187,
+            "significant_p005": false
+        },
+        {
+            "training_seed": 43,
+            "n_pairs": 70,
+            "n_zero_diff": 66,
+            "n_nonzero_diff": 4,
+            "baseline_mean": 99.3302,
+            "ppo_seed_mean": 100.0,
+            "wilcoxon_stat": 0.0,
+            "p_value": 0.06559969214707187,
+            "significant_p005": false
+        },
+        {
+            "training_seed": 44,
+            "n_pairs": 70,
+            "n_zero_diff": 64,
+            "n_nonzero_diff": 6,
+            "baseline_mean": 99.3302,
+            "ppo_seed_mean": 99.4819,
+            "wilcoxon_stat": 6.0,
+            "p_value": 0.338724147759658,
+            "significant_p005": false
+        },
+        {
+            "training_seed": 45,
+            "n_pairs": 70,
+            "n_zero_diff": 64,
+            "n_nonzero_diff": 6,
+            "baseline_mean": 99.3302,
+            "ppo_seed_mean": 99.3799,
+            "wilcoxon_stat": 9.0,
+            "p_value": 0.7504854193424544,
+            "significant_p005": false
+        },
+        {
+            "training_seed": 46,
+            "n_pairs": 70,
+            "n_zero_diff": 63,
+            "n_nonzero_diff": 7,
+            "baseline_mean": 99.3302,
+            "ppo_seed_mean": 98.8959,
+            "wilcoxon_stat": 7.0,
+            "p_value": 0.23250769389683978,
+            "significant_p005": false
+        }
+    ],
+    "hierarchical_variance": {
+        "grand_mean": 99.55154257142858,
+        "total_variance": 3.172907779987636,
+        "between_policy_variance": 0.21661109609224233,
+        "within_policy_variance": 3.0338948066952347
+    },
+    "action_summary": {
+        "seed_42": {
+            "total_triggers": 291,
+            "total_successes": 291,
+            "total_fails": 0
+        },
+        "seed_43": {
+            "total_triggers": 290,
+            "total_successes": 290,
+            "total_fails": 0
+        },
+        "seed_44": {
+            "total_triggers": 293,
+            "total_successes": 288,
+            "total_fails": 5
+        },
+        "seed_45": {
+            "total_triggers": 294,
+            "total_successes": 288,
+            "total_fails": 6
+        },
+        "seed_46": {
+            "total_triggers": 292,
+            "total_successes": 282,
+            "total_fails": 10
+        }
+    }
+}
