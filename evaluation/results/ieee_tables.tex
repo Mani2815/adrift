@@ -1,0 +1,46 @@
+% IEEE-Style Performance Comparison Table
+% Source: evaluation/results/multi_seed_stats.csv (aggregate means)
+\begin{table}[h]
+\caption{PROTOCOL B: RECOVERY PERFORMANCE COMPARISON}
+\label{tab:performance}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Metric} & \textbf{Rule Engine} & \textbf{PPO Agent} & \textbf{$\Delta$ (p.p.)} \\ \midrule
+Simulated Recovery Success Rate & \ruleSuccess\% & \ppoSuccess\% & +2.12 \\
+Computational Decision Latency (s) & \ruleLatency & \ppoLatency & 0.00 \\
+Pipeline Uptime (\%) & \ruleUptime\% & \ppoUptime\% & -0.016 \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+% Dataset Statistics Table (Phase 6)
+\begin{table}[h]
+\caption{FULL CICIDS-2017 DATASET AND DRIFT STATISTICS}
+\label{tab:dataset_stats}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}lrrcc@{}}
+\toprule
+\textbf{Dataset} & \textbf{Total Rows} & \textbf{Detected Drifts} & \textbf{Drifts / 1M Records} & \textbf{Avg Severity} \\ \midrule
+CICIDS-2017 (Full) & 2,830,743 & 3,774 & 1,333.22 & 18.38 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+% Drift Classification Distribution Table
+\begin{table}[h]
+\caption{DETECTED DRIFT-TYPE DISTRIBUTION}
+\label{tab:drift_dist}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Dataset} & \textbf{Sudden} & \textbf{Gradual} & \textbf{Incremental} & \textbf{Recurring} \\ \midrule
+CICIDS-2017 (Full) & 18 & 0 & 0 & 3,756 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

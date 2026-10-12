@@ -1,0 +1,6 @@
+Action,Frequency,Mean Latency (s),Success Rate (%),Source
+Restart Consumer,674,0.9993889590700721,95.89999999999999,Observed
+Rollback Previous Model,1371,2.0007614556029427,92.30000000000001,Observed
+Retrain Model,6,3.5455774536721463,83.3,Observed
+Scale Processing Resources,0,2.7437102916932172,80.0,Simulated
+Ignore Event,584,0.1000000000003638,100.0,Observed

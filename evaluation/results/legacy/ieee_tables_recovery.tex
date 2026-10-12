@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\caption{Supplementary: Recovery Action Micro-Benchmarks (Aggregated Across Baseline and PPO Engines)}
+\label{tab:recovery_analysis}
+\centering
+\small\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Action} & \textbf{Frequency} & \textbf{Mean Latency (s)} & \textbf{Success Rate} & \textbf{Source} \\ \midrule
+Restart Consumer & 674 & 1.00 & 95.9\% & Observed \\
+Rollback Previous Model & 1371 & 2.00 & 92.3\% & Observed \\
+Retrain Model & 6 & 3.55 & 83.3\% & Observed \\
+Scale Processing Resources & 0 & 2.74 & 80.0\% & Simulated \\
+Ignore Event & 584 & 0.10 & 100.0\% & Observed \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

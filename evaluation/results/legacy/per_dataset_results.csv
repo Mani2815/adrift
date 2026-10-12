@@ -1,0 +1,5 @@
+Dataset,System,MTTR,Success Rate,Uptime,Throughput
+Electricity,Baseline Rule Engine,0.0,95.0,100.0,8064.971965966516
+Electricity,PPO Agent,0.0,100.0,100.0,4761.588189029297
+Cicids2017,Baseline Rule Engine,0.0,92.0,100.0,7779.339468068256
+Cicids2017,PPO Agent,0.0,100.0,100.0,5282.410256855899

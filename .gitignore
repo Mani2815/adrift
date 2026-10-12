@@ -1,0 +1,62 @@
+# Python virtual environments
+venv/
+venv*/
+.venv/
+env/
+ENV/
+*.egg-info/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.DS_Store?
+._*
+
+# Large datasets & raw data
+datasets/
+*.pcap
+*.pcap_ISCX.csv
+*.csv.gz
+*.tar.gz
+
+# Generated logs & runtime artifacts
+logs/
+*.log
+*.log.*
+
+# SQLite databases & runtime data dumps
+*.db
+*.sqlite
+*.sqlite3
+data/*.csv
+data/*.db
+
+# Model checkpoints & large training weights
+models/checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*

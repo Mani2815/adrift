@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-08-10T06:25:49.565480+00:00",
+  "wall_clock": 7.53,
+  "total_trials": 140,
+  "Baseline Rule Engine": {
+    "mttr_mean_unrounded": 0.0,
+    "mttr_displayed": 0.0,
+    "mttr_min": 0.0,
+    "mttr_max": 0.0,
+    "success_rate": 97.17142857142858,
+    "uptime": 99.99714285714286
+  },
+  "PPO Agent": {
+    "mttr_mean_unrounded": 0.0,
+    "mttr_displayed": 0.0,
+    "mttr_min": 0.0,
+    "mttr_max": 0.0,
+    "success_rate": 99.28571428571429,
+    "uptime": 99.98071428571428
+  }
+}

@@ -1,0 +1,5 @@
+Mode,Detection Rate,False Alarm Rate,Detection Delay
+ADWIN Only,1.0,0.0,44
+DDM Only,1.0,0.002,4
+KSWIN Only,1.0,0.002,9
+Fusion,1.0,0.004,8
