@@ -1,0 +1,139 @@
+{
+  "paper_title": "ADRIFT: Adaptive Drift-Aware Recovery Framework for Intelligent Streaming Pipelines",
+  "conference": "IEEE ICDDS 2026",
+  "track": "Track II: Research Papers",
+  "authoritative_latex_source": "main_cameraready.tex",
+  "build_command": "/opt/homebrew/bin/tectonic main_cameraready.tex -o dist/",
+  "final_pdf_path": "dist/ADRIFT_ICDDS2026_CameraReady.pdf",
+  "page_count": 6,
+  "pdf_format": {
+    "paper_size": "Letter (612 x 792 pt)",
+    "columns": 2,
+    "ieee_template": "IEEEtran",
+    "sha256": "49816df4b0f48c7d7f836a0d320ec00ee7bf28d6abc6e748b1acf1dd8d95879d",
+    "byte_size": 128879
+  },
+  "build_timestamp": "2026-10-13T17:19:43+05:30",
+  "audit_verdict": "PASS",
+  "verification_status": {
+    "protocol_b_crn_statistically_audited": true,
+    "multi_seed_robustness_audited": true,
+    "shap_explainability_audited": true,
+    "docker_container_recovery_audited": true,
+    "docker_timing_residual_reconciled": true,
+    "test_suite_passed": true,
+    "page_budget_adherence_verified": true
+  },
+  "test_execution": {
+    "command": "ADRIFT/venv/bin/pytest -v ADRIFT/tests/",
+    "total_passed": 49,
+    "total_failed": 0,
+    "total_skipped": 0,
+    "duration_seconds": 18.96,
+    "timestamp": "2026-10-13T17:21:12+05:30"
+  },
+  "primary_statistical_results": {
+    "protocol_b_crn": {
+      "evaluation_engine": "Attempt-keyed CRN (CRN_v1_sha256_attempt_keyed)",
+      "total_trials": 140,
+      "paired_observations": 70,
+      "exact_ties": 58,
+      "non_zero_differences": 12,
+      "rule_engine_recovery_success_mean": 0.9611,
+      "rule_engine_recovery_success_std": 0.0979,
+      "ppo_seed42_recovery_success_mean": 0.9711,
+      "ppo_seed42_recovery_success_std": 0.0953,
+      "delta_pp": 1.00,
+      "wilcoxon_signed_rank_w": 28.0,
+      "wilcoxon_signed_rank_p": 0.3845,
+      "statistically_significant": false,
+      "localized_advantage_scenario": "High Latency (+12.01 pp: 94.76% vs 82.75%)",
+      "historical_unseeded_result": {
+        "rule_engine": 0.9694,
+        "ppo_seed42": 1.0000,
+        "wilcoxon_w": 0.0,
+        "wilcoxon_p": 0.004671,
+        "status": "SUPERSEDED_UNCONTROLLED_RNG"
+      }
+    },
+    "phase2_multi_seed_robustness": {
+      "seeds_evaluated": [42, 43, 44, 45, 46],
+      "total_trials": 420,
+      "macro_mean_recovery_success": 0.9711,
+      "between_policy_std": 0.0000,
+      "within_policy_trial_std": 0.0953,
+      "finite_benchmark_action_identity": "Identical discrete actions across all 7 benchmark scenarios",
+      "general_state_space_behavior": "Distinct action probabilities and attributions on broader continuous states"
+    },
+    "phase3_shap_explainability": {
+      "method": "KernelExplainer on action probabilities",
+      "explanation_states": 200,
+      "background_states": 25,
+      "numerical_reconstruction_error": "< 2.1e-07",
+      "cross_seed_mean_shap": {
+        "drift_type": 0.0496,
+        "severity_score": 0.0447,
+        "throughput": 0.0148,
+        "latency": 0.0108
+      }
+    },
+    "phase4_docker_prototype": {
+      "controlled_trials": 12,
+      "baseline_restarts": 1,
+      "total_restarts": 13,
+      "success_rate": 1.0000,
+      "failure_observation_latency_mean_s": 1.0914,
+      "decision_latency_mean_s": 0.0501,
+      "docker_start_cli_mean_s": 0.0742,
+      "readiness_wait_mean_s": 9.1881,
+      "end_to_end_downtime_mean_s": 10.4315,
+      "historical_decomposition_difference_ms": 27.7,
+      "separate_timing_audit_n5": {
+        "preflight_inspect_mean_ms": 25.12,
+        "preflight_inspect_std_ms": 2.45,
+        "subprocess_dispatch_mean_ms": 3.27,
+        "subprocess_dispatch_std_ms": 0.41,
+        "combined_mean_ms": 28.39,
+        "reconciliation_nature": "Empirically plausible accounting; bounds un-instrumented transition overhead without asserting per-trial algebraic identity"
+      }
+    }
+  },
+  "raw_data_and_artifact_checksums": {
+    "dist/ADRIFT_ICDDS2026_CameraReady.pdf": "49816df4b0f48c7d7f836a0d320ec00ee7bf28d6abc6e748b1acf1dd8d95879d",
+    "main_cameraready.tex": "99f44ca3ed032fea2543bd654ae216334f7373a97c61466b7908ce547b1359af",
+    "ADRIFT_ICDDS2026_TrackII_Anonymous.pdf": "a41e0d4dd8756aff3e6b0519e5df47bf21c583361b7bc22efd94f408c5155452",
+    "ADRIFT/models/ppo_agent.zip": "1753987a03d5074192389b24cfe7119cccd3ddb2b3ff087f2dabd88d2bfd49ab",
+    "ADRIFT/evaluation/results/camera_ready_protocol_b/ORIGINAL_submitted_results.csv": "4d984dc65cde1e6991b10ad1c2f8ec8c4415afdfa11da8956eacd3c04a0cc31b",
+    "ADRIFT/evaluation/results/camera_ready_protocol_b/raw_trials_20261012T162926Z.csv": "3fa7707da6cbb9702aabb1e4810ecd6e8d1398f3f4b6402dd41bd97e9ce36c08",
+    "ADRIFT/evaluation/results/camera_ready_protocol_b/aggregate_20261012T162926Z.csv": "950d1fd932cc15e44df1554c81f81bb174c3da417fb97bb1fc1aeb788b8ecd38",
+    "ADRIFT/evaluation/results/camera_ready_protocol_b/wilcoxon_20261012T162926Z.csv": "f193f22884d888dd2ef4ead3e75ee75217c6e4c4ac3c55447ce6e004143121c7",
+    "ADRIFT/evaluation/results/camera_ready_protocol_b/overall_summary_20261012T162926Z.csv": "5a4610c6428b06e0d52775d5d38773b80a4d072553b07f0f385c69d1c53609e5",
+    "ADRIFT/evaluation/results/camera_ready_phase2/all_seeds_training_manifest.json": "ece2471a40abfee925025932affa1e53e058b086011e711ce9c59af758652c7c",
+    "ADRIFT/evaluation/results/camera_ready_phase2/raw_phase2_trials.csv": "beaa020830fd66d6be4589eaf710c54d5664cdc4ae18ec2bd89c1c0ab6f1d91d",
+    "ADRIFT/evaluation/results/camera_ready_phase2/summary_by_training_seed.csv": "afc8ffeb10c86415d22b7f10ffd71b2ec008b2fb9a4983ede7a4200d4947a2f3",
+    "ADRIFT/evaluation/results/camera_ready_phase2/scenario_level_breakdown.csv": "78ac53451110e6018396636a024d764f9c0248c8ccdb555c7d720ff3401cac57",
+    "ADRIFT/evaluation/results/camera_ready_phase2/per_seed_wilcoxon_results.csv": "cc0a8f7278f08ae721ef81f8b822ad7f0aa875d62bfb430c87247107430710a1",
+    "ADRIFT/evaluation/results/camera_ready_phase2/phase2_statistical_analysis.json": "ad6e3399b51e862cac09a73d7c52b4c9f64ba6d0100ee2d16ce189954109eddf",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/dataset_metadata.json": "866350ddd70f56e5de76d2ee4040b00235dc164077f30297dcb54ceb15ba6f80",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/explanation_states.csv": "416b69f00c6519cf4c59dfe35d117cc816ed34bbf5d7d24e91fff1d2ade5962f",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/background_states.csv": "c940e9101e857a15d900a6eabd6cfb478680821b694fc152604847f77e00c0a6",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/per_action_feature_importance.csv": "7ea63a11b56169d41f18e09ce402bfe7a49e1389a7f6ce7f22f09f19d41ea317",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/per_seed_feature_importance.csv": "a617be5f687a0ee89da18abecea84e3ec431f0cabee54980eb31cb181940a106",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/cross_seed_stability.csv": "0c4e3de65ccf68982ef0c5d14f0059749d5363379715f1f00bb55c2856ca4897",
+    "ADRIFT/evaluation/results/camera_ready_phase3_shap/validation_results.json": "b666077eb39bc9395360437f4da998b0d8b2d75c2ae2745d6da8ce709baccf86",
+    "ADRIFT/evaluation/results/camera_ready_phase4_docker/raw_docker_trials.csv": "fb3f5f48db94f33091fd55e05fe0117636ce67e145a3362a4d781d9ea6bf9c15",
+    "ADRIFT/evaluation/results/camera_ready_phase4_docker/docker_recovery_summary.json": "37e587e8001205e65b5dbf73f914875ba68adbf76786f44ab952642b087c8b58",
+    "ADRIFT/evaluation/results/camera_ready_phase4_docker/actuator_validation_results.json": "0c71c9831324d88ed950a2db06c30e1967d8f66aabed2fe6671ebcf7df47e8f8",
+    "ADRIFT/evaluation/results/camera_ready_phase2/training_seed_42/ppo_agent.zip": "ba8f2ca573d6a2bc1ffa0c6e25861e7f8f5323fc2c74a3a1e53644926788e7ff",
+    "ADRIFT/evaluation/results/camera_ready_phase2/training_seed_43/ppo_agent.zip": "1e93c47c097833f59eaed672e09ac6406bf85ac7c79d6874b38126dd7c6c7869",
+    "ADRIFT/evaluation/results/camera_ready_phase2/training_seed_44/ppo_agent.zip": "b3be1e8735825ed324ca9693f38b13bf7b1224b4a442efcb5c9ee80c072547fb",
+    "ADRIFT/evaluation/results/camera_ready_phase2/training_seed_45/ppo_agent.zip": "8bfd118731d5397ccbe0f736679ee897cf4081e30dab5b2da3bf25ec54af9a45",
+    "ADRIFT/evaluation/results/camera_ready_phase2/training_seed_46/ppo_agent.zip": "fb4a0924f927f82a7cb359fa994453f21c20648d530f4cda13137555e725af0a"
+  },
+  "unresolved_limitations": [
+    "Evaluation relies on a single network-security dataset (CICIDS-2017); cross-domain generalizability remains unverified.",
+    "Real container recovery validated on a single-node Docker Compose prototype (13 genuine restart operations), not multi-node Kubernetes or production orchestrators.",
+    "Root-equivalent Docker socket access (/var/run/docker.sock) presents security privilege risks in multi-tenant environments where RBAC APIs are standard.",
+    "Protocol B CRN evaluation shows no statistically significant overall PPO advantage (W = 28.0, p = 0.3845, 58/70 ties, +1.00 pp overall); advantages are localized to High Latency (+12.01 pp)."
+  ]
+}

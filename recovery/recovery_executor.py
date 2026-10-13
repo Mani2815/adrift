@@ -19,8 +19,9 @@ class RecoveryExecutor:
     }
     DEFAULT_PARAMS = (1.0, 1.0, 0.5)
 
-    def __init__(self, rng: Optional[random.Random] = None, seed: Optional[int] = None):
+    def __init__(self, rng: Optional[random.Random] = None, seed: Optional[int] = None, simulate_sleep: bool = True):
         self.logger = logging.getLogger("RecoveryExecutor")
+        self.simulate_sleep = simulate_sleep
         if rng is not None:
             self.rng = rng
         elif seed is not None:
@@ -34,6 +35,7 @@ class RecoveryExecutor:
         rng: Optional[random.Random] = None,
         u_rand: Optional[float] = None,
         v_rand: Optional[float] = None,
+        simulate_sleep: Optional[bool] = None,
     ) -> Tuple[bool, float]:
         """
         Simulates the execution of a recovery action.
@@ -50,6 +52,8 @@ class RecoveryExecutor:
         v_rand : Optional[float]
             Exogenous uniform random variate in [0.0, 1.0) for execution duration determination
             under Common Random Numbers (CRN). If provided, exec_time = t_min + v_rand * (t_max - t_min).
+        simulate_sleep : Optional[bool]
+            If provided, overrides instance-level simulate_sleep. When False, time.sleep is bypassed.
 
         Returns:
         --------
@@ -79,7 +83,9 @@ class RecoveryExecutor:
             exec_time = random.uniform(t_min, t_max) if t_min < t_max else t_min
 
         # Simulate blocking operational work
-        time.sleep(exec_time)
+        should_sleep = self.simulate_sleep if simulate_sleep is None else simulate_sleep
+        if should_sleep:
+            time.sleep(exec_time)
 
         # 2. Determine recovery success
         if u_rand is not None:
@@ -93,7 +99,7 @@ class RecoveryExecutor:
             success = random.random() <= success_prob
 
         end_time = time.time()
-        actual_time = end_time - start_time
+        actual_time = (end_time - start_time) if should_sleep else exec_time
 
         if success:
             self.logger.info(f"Action '{action}' COMPLETED SUCCESSFULLY in {actual_time:.2f}s (prob={success_prob})")

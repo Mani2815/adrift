@@ -27,12 +27,21 @@ from evaluation.protocol_b_runner import (
 
 class TestReproducibleRecoveryRNG(unittest.TestCase):
 
+    def setUp(self):
+        import recovery.recovery_executor as rex
+        self._orig_sleep = rex.time.sleep
+        rex.time.sleep = lambda s: None
+
+    def tearDown(self):
+        import recovery.recovery_executor as rex
+        rex.time.sleep = self._orig_sleep
+
     # ========================================================================
     # 1. RecoveryExecutor Determinism & Probability Respect
     # ========================================================================
     def test_executor_crn_deterministic(self):
         """Verify that identical exogenous (u_rand, v_rand) produces identical outcomes."""
-        executor = RecoveryExecutor()
+        executor = RecoveryExecutor(simulate_sleep=False)
 
         # Restart Consumer: success_prob = 0.95, time in [0.5, 1.5]
         succ1, t1 = executor.execute("Restart Consumer", u_rand=0.90, v_rand=0.5)
@@ -48,7 +57,7 @@ class TestReproducibleRecoveryRNG(unittest.TestCase):
     def test_executor_respects_configured_probabilities(self):
         """Verify configured action-success probabilities across empirical samples."""
         for action, (t_min, t_max, expected_p) in RecoveryExecutor.ACTION_PARAMS.items():
-            executor = RecoveryExecutor()
+            executor = RecoveryExecutor(simulate_sleep=False)
             # Test boundary values
             succ_low, _ = executor.execute(action, u_rand=0.0)
             self.assertTrue(succ_low, f"Action {action} should succeed at u_rand=0.0")
@@ -68,8 +77,8 @@ class TestReproducibleRecoveryRNG(unittest.TestCase):
         rng1 = random.Random(999)
         rng2 = random.Random(999)
 
-        exec1 = RecoveryExecutor(rng=rng1)
-        exec2 = RecoveryExecutor(rng=rng2)
+        exec1 = RecoveryExecutor(rng=rng1, simulate_sleep=False)
+        exec2 = RecoveryExecutor(rng=rng2, simulate_sleep=False)
 
         outcomes1 = [exec1.execute("Scale Processing Resources")[0] for _ in range(10)]
         outcomes2 = [exec2.execute("Scale Processing Resources")[0] for _ in range(10)]
