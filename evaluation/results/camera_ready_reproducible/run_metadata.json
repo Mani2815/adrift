@@ -1,0 +1,28 @@
+{
+  "run_id": "20261012T230042Z",
+  "run_timestamp": "2026-10-12T23:01:08.473859+00:00",
+  "trial_length": 250,
+  "num_trials": 10,
+  "fast_simulation": true,
+  "ppo_training_seed": 42,
+  "scenarios": [
+    "Sudden Drift",
+    "Gradual Drift",
+    "Incremental Drift",
+    "Recurring Drift",
+    "Consumer Crash",
+    "High Latency",
+    "Data Processing Failure"
+  ],
+  "engines": [
+    "Baseline Rule Engine",
+    "PPO Agent"
+  ],
+  "total_trials": 140,
+  "invalid_trials": 0,
+  "raw_trial_csv": "evaluation/results/camera_ready_reproducible/raw_trials_20261012T230042Z.csv",
+  "aggregate_csv": "evaluation/results/camera_ready_reproducible/aggregate_20261012T230042Z.csv",
+  "wilcoxon_csv": "evaluation/results/camera_ready_reproducible/wilcoxon_20261012T230042Z.csv",
+  "recovery_rng_protocol": "CRN_v1_sha256_attempt_keyed",
+  "protocol_note": "Exogenous recovery randomness is matched per attempt index k using SHA-256 keyed seeds (stream crn:eval_seed=<seed>:scenario=<scenario>:attempt=<k>). Event streams are pre-generated with dedicated isolated RNG. KSWIN drift detector is seeded deterministically per condition. time.sleep disabled in executor (fast_simulation mode)."
+}

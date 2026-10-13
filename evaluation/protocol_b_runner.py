@@ -78,12 +78,8 @@ from recovery.fault_monitor import FaultMonitor
 # Output directory
 # ---------------------------------------------------------------------------
 OUTPUT_DIR = os.path.join(_ADRIFT_ROOT, "evaluation", "results", "camera_ready_protocol_b")
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-RAW_TRIALS_CSV = os.path.join(OUTPUT_DIR, "raw_trials.csv")
-AGGREGATE_CSV  = os.path.join(OUTPUT_DIR, "aggregate_by_scenario_engine.csv")
-WILCOXON_CSV   = os.path.join(OUTPUT_DIR, "wilcoxon_results.csv")
-RUN_METADATA   = os.path.join(OUTPUT_DIR, "run_metadata.json")
+DEFAULT_OUTPUT_DIR = os.path.join(_ADRIFT_ROOT, "evaluation", "results", "camera_ready_reproducible")
+os.makedirs(DEFAULT_OUTPUT_DIR, exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # Trial-level raw columns
@@ -109,6 +105,8 @@ RAW_COLUMNS = [
     "stream_fingerprint",
     "valid",                # True / False
     "invalid_reason",
+    "recovery_rng_protocol",
+    "recovery_stream_id",
 ]
 
 
@@ -118,11 +116,23 @@ RAW_COLUMNS = [
 class InstrumentedRecoveryEngine(RecoveryEngine):
     """
     Wraps RecoveryEngine to measure per-recovery timing separately for
-    decision vs. execution phases.
+    decision vs. execution phases, using reproducible Common Random Numbers (CRN).
     """
 
-    def __init__(self, fast_simulation: bool = True, model_path: str = None):
+    def __init__(
+        self,
+        fast_simulation: bool = True,
+        model_path: str = None,
+        eval_seed: int = 0,
+        scenario: str = "",
+        recovery_rng_protocol: str = "CRN_v1_sha256_attempt_keyed",
+    ):
         self._fast_simulation = fast_simulation
+        self.eval_seed = eval_seed
+        self.scenario = scenario
+        self.recovery_rng_protocol = recovery_rng_protocol
+        self.recovery_stream_id = f"crn:eval_seed={eval_seed}:scenario={scenario}"
+        self._recovery_attempt_count = 0
         super().__init__()
         if model_path and settings.PPO_ENABLED:
             from ppo.ppo_inference import PPOInferenceEngine
@@ -137,12 +147,12 @@ class InstrumentedRecoveryEngine(RecoveryEngine):
 
         if self._fast_simulation:
             orig_exec = self.executor.execute
-            def _fast_exec(action):
+            def _fast_exec(action, rng=None, u_rand=None, v_rand=None):
                 import recovery.recovery_executor as _rex
                 _orig_sleep = _rex.time.sleep
                 try:
                     _rex.time.sleep = lambda x: None
-                    return orig_exec(action)
+                    return orig_exec(action, rng=rng, u_rand=u_rand, v_rand=v_rand)
                 finally:
                     _rex.time.sleep = _orig_sleep
             self.executor.execute = _fast_exec
@@ -165,24 +175,25 @@ class InstrumentedRecoveryEngine(RecoveryEngine):
         else:
             _rex_module.time.sleep = _orig_sleep
 
+        # Common Random Numbers (CRN) exogenous stochasticity for this attempt
+        attempt_idx = self._recovery_attempt_count
+        self._recovery_attempt_count += 1
+
+        attempt_stream_id = f"crn:eval_seed={self.eval_seed}:scenario={self.scenario}:attempt={attempt_idx}"
+        attempt_seed = int(hashlib.sha256(attempt_stream_id.encode()).hexdigest()[:8], 16)
+        attempt_rng = random.Random(attempt_seed)
+        u_rand = attempt_rng.random()
+        v_rand = attempt_rng.random()
+
         t_exec_start = time.perf_counter()
-        success, actual_exec_wall = self.executor.execute(action)
+        success, actual_exec_wall = self.executor.execute(
+            action, u_rand=u_rand, v_rand=v_rand
+        )
         t_exec_end = time.perf_counter()
 
         # Restore
         _rex_module.time.sleep = _orig_sleep
 
-        # Simulated duration: what the executor *would* have slept for
-        # We can read it from the executor's own `exec_time` variable
-        # by looking at what execute() computed before sleeping.
-        # Since time.sleep was no-op, actual_exec_wall ≈ 0.
-        # The executor sets exec_time before sleep and returns (success, actual_time).
-        # actual_time = end_time - start_time (which equals sleep value when real).
-        # In fast mode, actual_time ≈ 0.
-        # We reconstruct simulated_exec from the executor probabilities -- but
-        # since execute() draws exec_time internally and we don't have it back,
-        # we use actual_exec_wall as a lower bound.
-        # For the paper's purposes: separate columns make this transparent.
         actual_exec_wall_measured = t_exec_end - t_exec_start
         e2e_latency = t_exec_end - t_trigger
 
@@ -205,6 +216,10 @@ class InstrumentedRecoveryEngine(RecoveryEngine):
         self._total_e2e_latency         = getattr(self, "_total_e2e_latency", 0.0) + e2e_latency
 
         self.timing_records.append({
+            "attempt_idx": attempt_idx,
+            "attempt_stream_id": attempt_stream_id,
+            "u_rand": round(u_rand, 6),
+            "v_rand": round(v_rand, 6),
             "action": action,
             "success": success,
             "decision_latency_s": decision_latency,
@@ -267,6 +282,7 @@ def run_one_trial(
     training_seed: int = 42,
     stream_fingerprint: str = "",
     model_path: str = None,
+    recovery_rng_protocol: str = "CRN_v1_sha256_attempt_keyed",
 ) -> dict:
     """
     Run a single trial.  `pre_generated_events` is the shared event list that
@@ -276,9 +292,16 @@ def run_one_trial(
 
     t_wall_start = time.perf_counter()
 
-    engine = InstrumentedRecoveryEngine(fast_simulation=fast_simulation, model_path=model_path)
+    engine = InstrumentedRecoveryEngine(
+        fast_simulation=fast_simulation,
+        model_path=model_path,
+        eval_seed=eval_seed,
+        scenario=scenario,
+        recovery_rng_protocol=recovery_rng_protocol,
+    )
     fault_monitor = FaultMonitor(engine)
-    drift_detector = DriftDetectionService(recovery_engine=engine)
+    kswin_seed = int(hashlib.sha256(f"kswin:{eval_seed}:{scenario}".encode()).hexdigest()[:8], 16)
+    drift_detector = DriftDetectionService(recovery_engine=engine, seed=kswin_seed)
 
     injection_count = 0
     for event in pre_generated_events:
@@ -309,10 +332,6 @@ def run_one_trial(
     # Validity check
     valid = True
     invalid_reason = ""
-    # For drift scenarios: we expect detector to fire at least once
-    # For fault scenarios: we also expect fault_monitor to fire
-    # The minimum: if scenario is one of the step-based ones, injection_count > 0
-    # (Incremental Drift always has injection_count=1)
     if injection_count == 0 and scenario != "Incremental Drift":
         valid = False
         invalid_reason = f"Injection did not occur within {len(pre_generated_events)}-event window"
@@ -330,7 +349,7 @@ def run_one_trial(
         "recovery_fail_count":          engine._recovery_fail_count,
         "success_rate_pct":             round(success_rate_pct, 4),
         "mean_decision_latency_s":      round(timing["mean_decision_latency_s"], 8),
-        "mean_simulated_exec_duration_s": 0.0,   # not separately measurable post-no-op
+        "mean_simulated_exec_duration_s": 0.0,
         "mean_actual_exec_wall_s":      round(timing["mean_actual_exec_wall_s"], 8),
         "mean_e2e_latency_s":           round(timing["mean_e2e_latency_s"], 8),
         "simulated_uptime_pct":         round(simulated_uptime_pct, 6),
@@ -338,6 +357,8 @@ def run_one_trial(
         "stream_fingerprint":           stream_fingerprint,
         "valid":                        valid,
         "invalid_reason":               invalid_reason,
+        "recovery_rng_protocol":        recovery_rng_protocol,
+        "recovery_stream_id":           engine.recovery_stream_id,
     }
 
 
@@ -374,23 +395,27 @@ def run_all(
     num_trials: int = 10,
     fast_simulation: bool = True,
     ppo_training_seed: int = 42,
+    output_dir: str = DEFAULT_OUTPUT_DIR,
 ):
+    os.makedirs(output_dir, exist_ok=True)
     scenarios = CorrectedFaultSimulator.ALL_SCENARIOS
     engines   = ["Baseline Rule Engine", "PPO Agent"]
 
     # ---- Write CSV header ----
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    run_csv = os.path.join(OUTPUT_DIR, f"raw_trials_{run_id}.csv")
+    run_csv = os.path.join(output_dir, f"raw_trials_{run_id}.csv")
+    symlink_csv = os.path.join(output_dir, "raw_trials.csv")
 
     with open(run_csv, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=RAW_COLUMNS)
         writer.writeheader()
 
     print("=" * 70)
-    print("ADRIFT Camera-Ready Protocol B — Corrected Experiment Runner")
+    print("ADRIFT Camera-Ready Protocol B — Reproducible Experiment Runner (CRN)")
     print(f"  Trial length : {trial_length} events")
     print(f"  Trials/cell  : {num_trials}")
     print(f"  Fast mode    : {fast_simulation}")
+    print(f"  RNG Protocol : CRN_v1_sha256_attempt_keyed")
     print(f"  Output       : {run_csv}")
     print("=" * 70)
 
@@ -439,11 +464,15 @@ def run_all(
                     writer = csv.DictWriter(f, fieldnames=RAW_COLUMNS)
                     writer.writerow(row)
 
+    # Save stable copy
+    import shutil
+    shutil.copyfile(run_csv, symlink_csv)
+
     # ---- Verify paired fingerprints ----
     _verify_stream_pairing(all_rows)
 
     # ---- Aggregate ----
-    _aggregate_and_wilcoxon(run_csv, all_rows, run_id)
+    _aggregate_and_wilcoxon(run_csv, all_rows, run_id, output_dir=output_dir)
 
     # ---- Metadata ----
     metadata = {
@@ -458,23 +487,28 @@ def run_all(
         "total_trials": len(all_rows),
         "invalid_trials": invalid_count,
         "raw_trial_csv": run_csv,
-        "aggregate_csv": AGGREGATE_CSV,
-        "wilcoxon_csv": WILCOXON_CSV,
+        "aggregate_csv": os.path.join(output_dir, f"aggregate_{run_id}.csv"),
+        "wilcoxon_csv": os.path.join(output_dir, f"wilcoxon_{run_id}.csv"),
+        "recovery_rng_protocol": "CRN_v1_sha256_attempt_keyed",
         "protocol_note": (
-            "Injection windows shifted to trial_length*0.40 (step=100 for N=250). "
-            "Event streams are pre-generated and replayed identically for both engines. "
-            "time.sleep disabled in executor (fast_simulation mode); "
-            "decision latency measured separately from execution."
+            "Exogenous recovery randomness is matched per attempt index k using SHA-256 keyed seeds "
+            "(stream crn:eval_seed=<seed>:scenario=<scenario>:attempt=<k>). "
+            "Event streams are pre-generated with dedicated isolated RNG. "
+            "KSWIN drift detector is seeded deterministically per condition. "
+            "time.sleep disabled in executor (fast_simulation mode)."
         ),
     }
-    with open(RUN_METADATA, "w") as f:
+    run_meta_path = os.path.join(output_dir, f"run_metadata_{run_id}.json")
+    with open(run_meta_path, "w") as f:
+        json.dump(metadata, f, indent=2)
+    with open(os.path.join(output_dir, "run_metadata.json"), "w") as f:
         json.dump(metadata, f, indent=2)
 
     print()
     print("=" * 70)
     print(f"  DONE. Total trials: {len(all_rows)}, Invalid: {invalid_count}")
     print(f"  Raw CSV : {run_csv}")
-    print(f"  Metadata: {RUN_METADATA}")
+    print(f"  Metadata: {run_meta_path}")
     print("=" * 70)
     return all_rows
 
@@ -498,7 +532,7 @@ def _verify_stream_pairing(rows):
         print(f"  [ERROR] {mismatches} fingerprint mismatches detected!")
 
 
-def _aggregate_and_wilcoxon(run_csv, rows, run_id):
+def _aggregate_and_wilcoxon(run_csv, rows, run_id, output_dir=DEFAULT_OUTPUT_DIR):
     """Compute aggregate statistics and Wilcoxon signed-rank test."""
     try:
         import pandas as pd
@@ -527,7 +561,7 @@ def _aggregate_and_wilcoxon(run_csv, rows, run_id):
         trigger_count_mean=("recovery_trigger_count", "mean"),
     ).reset_index()
 
-    agg_path = os.path.join(OUTPUT_DIR, f"aggregate_{run_id}.csv")
+    agg_path = os.path.join(output_dir, f"aggregate_{run_id}.csv")
     agg.to_csv(agg_path, index=False)
     print(f"  Aggregate CSV: {agg_path}")
 
@@ -538,7 +572,7 @@ def _aggregate_and_wilcoxon(run_csv, rows, run_id):
         uptime_mean=("simulated_uptime_pct", "mean"),
         mean_decision_lat_us=("mean_decision_latency_s", lambda x: x.mean() * 1e6),
     ).reset_index()
-    overall_path = os.path.join(OUTPUT_DIR, f"overall_summary_{run_id}.csv")
+    overall_path = os.path.join(output_dir, f"overall_summary_{run_id}.csv")
     overall.to_csv(overall_path, index=False)
     print(f"  Overall summary CSV: {overall_path}")
     print()
@@ -559,30 +593,36 @@ def _aggregate_and_wilcoxon(run_csv, rows, run_id):
 
     wilcoxon_rows = []
     for metric in ["success_rate_pct", "simulated_uptime_pct"]:
-        b_vals = baseline[metric]
-        p_vals = ppo[metric]
+        b_vals = baseline[metric].astype(float)
+        p_vals = ppo[metric].astype(float)
         diff = b_vals - p_vals
-        if np.all(diff == 0):
+        n_zero = int((diff == 0).sum())
+        n_nonzero = int((diff != 0).sum())
+
+        if n_nonzero == 0:
             stat, pval = 0.0, 1.0
         else:
             try:
-                stat, pval = stats.wilcoxon(b_vals, p_vals)
+                res = stats.wilcoxon(b_vals, p_vals)
+                stat, pval = float(res.statistic), float(res.pvalue)
             except Exception as e:
                 stat, pval = float("nan"), float("nan")
+
         wilcoxon_rows.append({
             "metric": metric,
             "n_pairs": len(common_keys),
-            "baseline_mean": b_vals.mean(),
-            "ppo_mean": p_vals.mean(),
-            "wilcoxon_stat": stat,
+            "n_zero_diffs": n_zero,
+            "n_nonzero_diffs": n_nonzero,
+            "baseline_mean": round(float(b_vals.mean()), 4),
+            "ppo_mean": round(float(p_vals.mean()), 4),
+            "wilcoxon_stat": round(stat, 4) if not np.isnan(stat) else stat,
             "p_value": pval,
-            "significant_p005": pval < 0.05 if not np.isnan(pval) else False,
+            "significant_p005": bool(pval < 0.05) if not np.isnan(pval) else False,
         })
 
-    wcx_path = os.path.join(OUTPUT_DIR, f"wilcoxon_{run_id}.csv")
+    wcx_path = os.path.join(output_dir, f"wilcoxon_{run_id}.csv")
     pd.DataFrame(wilcoxon_rows).to_csv(wcx_path, index=False)
     print(f"  Wilcoxon CSV: {wcx_path}")
-    pd.DataFrame(wilcoxon_rows)[["metric","n_pairs","baseline_mean","ppo_mean","p_value","significant_p005"]].to_string(index=False)
     print(pd.DataFrame(wilcoxon_rows).to_string(index=False))
 
 
@@ -599,6 +639,8 @@ if __name__ == "__main__":
                         help="Use real time.sleep in executor (SLOW)")
     parser.add_argument("--ppo-seed", type=int, default=42,
                         help="PPO training seed used for model checkpoint")
+    parser.add_argument("--output-dir", type=str, default=DEFAULT_OUTPUT_DIR,
+                        help="Directory to save results")
     args = parser.parse_args()
 
     run_all(
@@ -606,4 +648,6 @@ if __name__ == "__main__":
         num_trials=args.num_trials,
         fast_simulation=not args.real_time,
         ppo_training_seed=args.ppo_seed,
+        output_dir=args.output_dir,
     )
+

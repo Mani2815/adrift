@@ -1,0 +1,7 @@
+entity,training_seed,n_trials,success_rate_mean,success_rate_std,uptime_mean,uptime_std,decision_lat_mean_us,decision_lat_std_us
+Baseline Rule Engine,N/A,70,96.107,9.7921,99.983473,0.014867,1.04,0.29
+PPO Agent (seed 42),42,70,97.1088,9.5272,99.986409,0.009784,194.63,40.87
+PPO Agent (seed 43),43,70,97.1088,9.5272,99.98578,0.010906,197.05,40.43
+PPO Agent (seed 44),44,70,97.1088,9.5272,99.985548,0.012365,194.82,42.12
+PPO Agent (seed 45),45,70,97.1088,9.5272,99.985169,0.011094,197.1,51.24
+PPO Agent (seed 46),46,70,97.1088,9.5272,99.98612,0.011053,193.12,39.89

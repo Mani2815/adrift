@@ -44,6 +44,7 @@ def evaluate_phase2_matrix(
     trial_length: int = 250,
     fast_simulation: bool = True,
     output_dir: str = PHASE2_RESULTS_DIR,
+    checkpoints_dir: str = PHASE2_RESULTS_DIR,
 ) -> dict:
     if training_seeds is None:
         training_seeds = [42, 43, 44, 45, 46]
@@ -54,7 +55,7 @@ def evaluate_phase2_matrix(
     # Check that model checkpoints exist
     model_paths = {}
     for ts in training_seeds:
-        ckpt = os.path.join(output_dir, f"training_seed_{ts}", "ppo_agent.zip")
+        ckpt = os.path.join(checkpoints_dir, f"training_seed_{ts}", "ppo_agent.zip")
         if not os.path.exists(ckpt):
             raise FileNotFoundError(f"Missing checkpoint for training seed {ts} at {ckpt}")
         model_paths[ts] = ckpt
@@ -342,4 +343,22 @@ def analyze_phase2_results(df: pd.DataFrame, training_seeds: list, output_dir: s
 
 
 if __name__ == "__main__":
-    evaluate_phase2_matrix()
+    import argparse
+    parser = argparse.ArgumentParser(description="Phase 2 Multi-Seed Evaluation Matrix")
+    parser.add_argument("--output-dir", type=str, default=PHASE2_RESULTS_DIR,
+                        help="Directory to save evaluation matrix results")
+    parser.add_argument("--checkpoints-dir", type=str, default=PHASE2_RESULTS_DIR,
+                        help="Directory containing trained model checkpoints")
+    parser.add_argument("--num-eval-seeds", type=int, default=10,
+                        help="Number of evaluation seeds per scenario (default: 10)")
+    parser.add_argument("--trial-length", type=int, default=250,
+                        help="Number of events per trial (default: 250)")
+    args = parser.parse_args()
+
+    evaluate_phase2_matrix(
+        output_dir=args.output_dir,
+        checkpoints_dir=args.checkpoints_dir,
+        num_eval_seeds=args.num_eval_seeds,
+        trial_length=args.trial_length,
+    )
+

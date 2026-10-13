@@ -20,15 +20,16 @@ from consumer.severity_engine import SeverityEngine
 logger = setup_logger("DriftDetector", os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs", "drift_classification.log"))
 
 class DriftDetectionService:
-    def __init__(self, recovery_engine=None):
+    def __init__(self, recovery_engine=None, seed: int = None):
         self.recovery_engine = recovery_engine
+        self.seed = seed
         self.csv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "drift_events.csv")
         self._init_csv()
         
         # Initialize Phase 2 detectors
         self.adwin = drift.ADWIN() if settings.ADWIN_ENABLED else None
         self.ddm = drift.binary.DDM() if settings.DDM_ENABLED and hasattr(drift, 'binary') else None
-        self.kswin = drift.KSWIN() if settings.KSWIN_ENABLED else None
+        self.kswin = drift.KSWIN(seed=seed) if (settings.KSWIN_ENABLED and hasattr(drift, 'KSWIN')) else None
         
         # State for DDM binarization and Phase 3 Heuristics
         self.count = 0

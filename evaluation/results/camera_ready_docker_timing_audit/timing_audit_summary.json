@@ -1,0 +1,92 @@
+{
+    "audit_timestamp": "2026-10-12T23:06:11.668612+00:00",
+    "n_valid_trials": 5,
+    "historical_phase4_dir": "/Users/mani/Documents/research/Project/ADRIFT/evaluation/results/camera_ready_phase4_docker",
+    "metrics_summary": {
+        "observation_latency_s": {
+            "mean": 1.3128794,
+            "std": 0.03621200131586209,
+            "median": 1.333982,
+            "min": 1.253311,
+            "max": 1.338908
+        },
+        "state_encoding_latency_s": {
+            "mean": 5.380000000000001e-05,
+            "std": 6.978538528947162e-06,
+            "median": 5.7e-05,
+            "min": 4.4e-05,
+            "max": 6e-05
+        },
+        "decision_latency_s": {
+            "mean": 0.0889504,
+            "std": 0.18871629410387436,
+            "median": 7e-06,
+            "min": 2e-06,
+            "max": 0.426232
+        },
+        "actuator_dispatch_latency_s": {
+            "mean": 0.0032212000000000005,
+            "std": 0.0004748085930140691,
+            "median": 0.003381,
+            "min": 0.002699,
+            "max": 0.003688
+        },
+        "preflight_inspect_duration_s": {
+            "mean": 0.0251168,
+            "std": 0.0023766077084786197,
+            "median": 0.025897,
+            "min": 0.021451,
+            "max": 0.027408
+        },
+        "docker_restart_duration_s": {
+            "mean": 0.07771879999999999,
+            "std": 0.01484551943180164,
+            "median": 0.069231,
+            "min": 0.064716,
+            "max": 0.095623
+        },
+        "readiness_wait_duration_s": {
+            "mean": 9.162186799999997,
+            "std": 0.15624096548184827,
+            "median": 9.093186,
+            "min": 8.994537,
+            "max": 9.392229
+        },
+        "end_to_end_downtime_s": {
+            "mean": 10.6673278,
+            "std": 0.19115167926073803,
+            "median": 10.673503,
+            "min": 10.461046,
+            "max": 10.875966
+        },
+        "component_sum_s": {
+            "mean": 10.6417352,
+            "std": 0.1927829000059396,
+            "median": 10.645635,
+            "min": 10.433911,
+            "max": 10.851248
+        },
+        "residual_s": {
+            "mean": 0.0255928,
+            "std": 0.0023700204007560785,
+            "median": 0.026337,
+            "min": 0.021906,
+            "max": 0.027869
+        },
+        "reconciled_sum_s": {
+            "mean": 10.6701266,
+            "std": 0.19124868167597897,
+            "median": 10.6758,
+            "min": 10.464319,
+            "max": 10.879062
+        },
+        "unaccounted_difference_s": {
+            "mean": -0.0027986000000000005,
+            "std": 0.0004494755833190497,
+            "median": -0.002986,
+            "min": -0.003273,
+            "max": -0.002297
+        }
+    },
+    "findings": "The ~27.7 ms difference between historical component sum and end-to-end downtime is empirical overhead consisting primarily of preflight 'docker inspect' verification inside restart_consumer (~20-25 ms) plus unmetered Python state encoding, parameter validation, and subprocess execution dispatch (~2-4 ms)."
+}

@@ -62,6 +62,7 @@ class ActuationResult:
     docker_restart_duration_s: float
     readiness_wait_duration_s: float
     total_actuation_duration_s: float
+    preflight_inspect_duration_s: float = 0.0
     end_to_end_recovery_s: Optional[float] = None
     container_id: Optional[str] = None
     error_reason: Optional[str] = None
@@ -253,7 +254,11 @@ class DockerRecoveryActuator:
             )
 
         # Step 1: Pre-restart Container State Verification
+        t_inspect_start = time.perf_counter()
         initial_state = self.inspect_container(target)
+        t_inspect_end = time.perf_counter()
+        inspect_duration = t_inspect_end - t_inspect_start
+
         if not initial_state.exists:
             logger.error(f"Cannot restart container '{target}': container does not exist.")
             return ActuationResult(
@@ -265,6 +270,7 @@ class DockerRecoveryActuator:
                 docker_restart_duration_s=0.0,
                 readiness_wait_duration_s=0.0,
                 total_actuation_duration_s=time.perf_counter() - t_req,
+                preflight_inspect_duration_s=inspect_duration,
                 error_reason=f"Container '{target}' not found: {initial_state.error_message}"
             )
 
@@ -366,6 +372,7 @@ class DockerRecoveryActuator:
             docker_restart_duration_s=docker_duration,
             readiness_wait_duration_s=ready_duration,
             total_actuation_duration_s=total_actuation,
+            preflight_inspect_duration_s=inspect_duration,
             end_to_end_recovery_s=e2e_recovery,
             container_id=initial_state.container_id,
             error_reason=None,
